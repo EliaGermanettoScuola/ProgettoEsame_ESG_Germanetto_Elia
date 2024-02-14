@@ -12,6 +12,7 @@
         <input type="button" name="" id="" class="btn btn-primary mt-5" value="prova" @click="myFunction">
         <br>
         <p class="mt-2">{{ risposta }}</p>
+        
 
 
     </div>
@@ -24,6 +25,7 @@ export default {
         return{
             message: 'Hello Vue.js!',
             risposta: ''
+
         }
     },
     methods: {
@@ -31,15 +33,10 @@ export default {
       alert("Hello! I am an alert box!");
     },
     async provaAPI() {
-        await axios.get('http://localhost:8000/test')
-        .then(response => {
-            this.risposta = response.data;
-            console.log(response.data);
-        })
-        .catch(error => {
-            this.risposta = error;
-            console.log(error);
-        })
+
+        let response = await (await fetch('http://localhost:8000/test')).text();
+
+        this.risposta = response;
     }
   }
 }

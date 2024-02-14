@@ -13,6 +13,7 @@
         @vite('resources/css/app.js')
     </head>
     <body>
+        <div id="navBar"></div>
         <div id="app"></div>
         
         @vite('resources/js/app.js')

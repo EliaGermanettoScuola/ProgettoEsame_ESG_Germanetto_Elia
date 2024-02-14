@@ -15,9 +15,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    header('Access-Control-Allow-Origin: *');
     return view('welcome');
 });
 
 Route::get('/test', function () {
-    return "CIAO SONO LA PAGINA ABOUT";
+    header('Access-Control-Allow-Origin: *');
+    return "CIAO SONO LA PAGINA TEST";
 });
