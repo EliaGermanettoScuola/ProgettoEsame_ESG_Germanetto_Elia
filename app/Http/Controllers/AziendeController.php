@@ -42,11 +42,11 @@ class AziendeController extends Controller
     }
 
     function login(Request $request){
-        header('Access-Control-Allow-Origin: *');
 
         $utente = DB::table('utenti')->where('email', $request->email)->first();
         
         if ($utente && password_verify($request->password, $utente->password)) {
+            $request->session()->put('Users', $utente->idUtente);
             return response()->json(['status' => 'ok', 'idUtente' => $utente->idUtente]);
         } else {
             return response()->json(['status' => 'ko', 'error' => 'Credenziali non valide']);

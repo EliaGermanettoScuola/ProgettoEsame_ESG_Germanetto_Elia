@@ -31,9 +31,10 @@ export default {
         return{
             message: 'Hello Vue.js!',
             risposta: '',
-            rispostaLogin: ''
-
+            rispostaLogin: '',
         }
+    },
+    mounted() {
     },
     methods: {
     myFunction() {
@@ -46,14 +47,17 @@ export default {
         this.risposta = response;
     },
 
+
     async login() {
+        
         let username = document.getElementById('email').value;
         let password = document.getElementById('password').value;
-        let response = await (await fetch('http://localhost:8000/login', {
+        try {
+            let response = await (await fetch('http://localhost:8000/login', {
             method: 'POST',
             headers: {
-                'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': this.csrfToken
             },
             body: JSON.stringify({
                 email: username,
@@ -62,6 +66,10 @@ export default {
         })).json();
 
         this.rispostaLogin = response;
+        } catch (error) {
+            console.error('Errore durante il login', error);
+        }
+        
     }
   }
 }
