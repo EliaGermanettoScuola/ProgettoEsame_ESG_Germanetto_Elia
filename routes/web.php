@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AziendeController;
 
 
 /*
@@ -23,3 +24,12 @@ Route::get('/test', function () {
     header('Access-Control-Allow-Origin: *');
     return "CIAO SONO LA PAGINA TEST";
 });
+
+
+Route::get('/get-csrf-token', function () {
+    return response()->json(['csrf_token' => csrf_token()]);
+});
+
+Route::post('/registrazione', [AziendeController::class, 'registrazione']);
+
+//Route::post('/login', [AziendeController::class, 'login']);
