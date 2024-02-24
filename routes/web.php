@@ -32,4 +32,4 @@ Route::get('/get-csrf-token', function () {
 
 Route::post('/registrazione', [AziendeController::class, 'registrazione']);
 
-//Route::post('/login', [AziendeController::class, 'login']);
+Route::post('/login', [AziendeController::class, 'login']);

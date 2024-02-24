@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Psy\Readline\Hoa\Console;
 
 class AziendeController extends Controller
 {
@@ -40,15 +41,15 @@ class AziendeController extends Controller
         }
     }
 
-    /*function login(Request $request){
+    function login(Request $request){
         header('Access-Control-Allow-Origin: *');
 
         $utente = DB::table('utenti')->where('email', $request->email)->first();
-
+        
         if ($utente && password_verify($request->password, $utente->password)) {
             return response()->json(['status' => 'ok', 'idUtente' => $utente->idUtente]);
         } else {
-            return response()->json(['status' => 'ko']);
+            return response()->json(['status' => 'ko', 'error' => 'Credenziali non valide']);
         }
-    }*/
+    }
 }

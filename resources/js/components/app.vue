@@ -12,6 +12,12 @@
         <input type="button" name="" id="" class="btn btn-primary mt-5" value="prova" @click="myFunction">
         <br>
         <p class="mt-2">{{ risposta }}</p>
+        <br>
+        <h4>Prova login</h4>
+        <input type="email" name="" id="email" class="form-control" placeholder="username">
+        <input type="password" name="" id="password" class="form-control" placeholder="password">   
+        <input type="button" name="" id="" class="btn btn-primary mt-5" value="login" @click="login">
+        <p class="mt-2">{{ rispostaLogin }}</p>
         
 
 
@@ -24,7 +30,8 @@ export default {
     data() {
         return{
             message: 'Hello Vue.js!',
-            risposta: ''
+            risposta: '',
+            rispostaLogin: ''
 
         }
     },
@@ -37,6 +44,24 @@ export default {
         let response = await (await fetch('http://localhost:8000/test')).text();
 
         this.risposta = response;
+    },
+
+    async login() {
+        let username = document.getElementById('email').value;
+        let password = document.getElementById('password').value;
+        let response = await (await fetch('http://localhost:8000/login', {
+            method: 'POST',
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: username,
+                password: password
+            })
+        })).json();
+
+        this.rispostaLogin = response;
     }
   }
 }
