@@ -18,6 +18,13 @@
         <input type="password" name="" id="password" class="form-control" placeholder="password">   
         <input type="button" name="" id="" class="btn btn-primary mt-5" value="login" @click="login">
         <p class="mt-2">{{ rispostaLogin }}</p>
+        <br>
+        <h4>Sessione</h4>
+        <input type="button" name="" id="" class="btn btn-primary mt-5" value="getSession" @click="getSession">
+        <p class="mt-2">{{ session }}</p>
+        <br>
+        <input type="button" name="" id="" class="btn btn-primary mt-5" value="getInfoSession" @click="getInfoSession">
+
         
 
 
@@ -32,9 +39,16 @@ export default {
             message: 'Hello Vue.js!',
             risposta: '',
             rispostaLogin: '',
+            session: '',
+            csrfToken: '',
         }
     },
-    mounted() {
+    async mounted() {
+        await this.getSession();
+        this.csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        console.log('CSRF Token:', this.csrfToken);
+        console.log('Sessione:', this.session);
+        
     },
     methods: {
     myFunction() {
@@ -42,7 +56,7 @@ export default {
     },
     async provaAPI() {
 
-        let response = await (await fetch('http://localhost:8000/test')).text();
+        let response = await (await fetch('http://127.0.0.1:8000/test')).text();
 
         this.risposta = response;
     },
@@ -53,7 +67,7 @@ export default {
         let username = document.getElementById('email').value;
         let password = document.getElementById('password').value;
         try {
-            let response = await (await fetch('http://localhost:8000/login', {
+            let response = await (await fetch('http://127.0.0.1:8000/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -64,14 +78,72 @@ export default {
                 password: password
             })
         })).json();
+        if (response.status === 'ok') {
+            this.rispostaLogin = response;
+            console.log('Login riuscito. ID Utente:', this.rispostaLogin.idUtente);
+            this.createSession();
+        } else {
+            this.rispostaLogin = response;
+            console.error('Errore durante il login:', this.rispostaLogin.error);
+        }
+        console.log('risposta: ', this.rispostaLogin.idUtente);
 
-        this.rispostaLogin = response;
         } catch (error) {
             console.error('Errore durante il login', error);
         }
         
+    },
+
+
+    async createSession(){
+        try{
+            let response = await (await fetch('http://127.0.0.1:8000/createSession',{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': this.csrfToken
+                },
+                body: JSON.stringify({
+                    type: 'Users',
+                    id: this.rispostaLogin.idUtente
+                }),
+                credentials: 'include'
+            
+            })).text();
+
+            this.session = response;
+            console.log('Sessione creata:', response);
+        }catch (error){
+            console.error('Errore nel creare la sessione:', error);
+        }
+
+    },
+
+    async getSession(){
+        try{
+            let response = await (await fetch('http://127.0.0.1:8000/getSession',{
+                credentials: 'include'
+            })).json();
+            this.session = response.data;
+            console.log('Sessione:', this.session);
+            
+
+        }catch{
+            console.error('Errore nel recupero della sessione:', error);
+        }
+    },
+
+    async getInfoSession(){
+        try{
+            let response = await (await fetch('http://127.0.0.1:8000/getSessionInfo',{
+                credentials: 'include'
+            })).json();
+            console.log('Info Sessione:', response);
+        }catch{
+            console.error('Errore nel recupero delle info sessione:', error);
+        }
+    } 
     }
-  }
 }
   
 

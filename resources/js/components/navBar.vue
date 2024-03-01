@@ -28,7 +28,7 @@
         <a class="nav-link" href="#">Login</a>
       </li>
       <li v-else class="nav-item active">
-        <a class="nav-link" href="#">Logout</a>
+        <button class="nav-link" value="logout" @click="logout">logout</button>
       </li>
       
     </ul>
@@ -45,7 +45,44 @@ export default {
 
         }
     },
+    async mounted(){
+      await this.getSession();
+    },
     methods: {
+      async getSession(){
+        try{
+            let response = await (await fetch('http://127.0.0.1:8000/getSession',{
+                credentials: 'include'
+            })).json();
+            this.session = response.data;
+            console.log('Sessione:', this.session);
+            
+
+        }catch{
+            console.error('Errore nel recupero della sessione:', error);
+        }
+      },
+
+      async logout(){
+        try{
+            let response = await (await fetch('http://127.0.0.1:8000/destroySession',{
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': this.csrfToken
+                },
+                body: JSON.stringify({
+                    type: 'Users'
+                }),
+                credentials: 'include'
+            })).json();
+            if(response.status == 'success'){
+                this.session = null;
+            }
+        }catch{
+            console.error('Errore nel logout:', error);
+        }
+      }
 
     }
 }

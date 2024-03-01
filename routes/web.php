@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AziendeController;
+use App\Http\Controllers\SessionController;
 
 
 /*
@@ -33,3 +34,11 @@ Route::get('/get-csrf-token', function () {
 Route::post('/registrazione', [AziendeController::class, 'registrazione']);
 
 Route::post('/login', [AziendeController::class, 'login']);
+
+Route::get('/getSession', [SessionController::class, 'getSession']);
+
+route::post('/createSession', [SessionController::class, 'CreateSession']);
+
+route::delete('/destroySession', [SessionController::class, 'destroySession']);
+
+route::get('/getSessionInfo', [SessionController::class, 'getSessionInfo']);
