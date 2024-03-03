@@ -14,7 +14,7 @@
         <p class="mt-2">{{ risposta }}</p>
         <br>
         <h4>Prova login</h4>
-        <input type="email" name="" id="email" class="form-control" placeholder="username">
+        <input type="email" name="" id="email" class="form-control" placeholder="username" value="e.germanetto@vallauri.edu">
         <input type="password" name="" id="password" class="form-control" placeholder="password">   
         <input type="button" name="" id="" class="btn btn-primary mt-5" value="login" @click="login">
         <p class="mt-2">{{ rispostaLogin }}</p>
@@ -56,18 +56,18 @@ export default {
     },
     async provaAPI() {
 
-        let response = await (await fetch('http://127.0.0.1:8000/test')).text();
+        let response = await (await fetch('/test')).text();
 
         this.risposta = response;
     },
 
 
     async login() {
-        
+        console.log('Login');
         let username = document.getElementById('email').value;
         let password = document.getElementById('password').value;
         try {
-            let response = await (await fetch('http://127.0.0.1:8000/login', {
+            let response = await (await fetch('/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -97,7 +97,7 @@ export default {
 
     async createSession(){
         try{
-            let response = await (await fetch('http://127.0.0.1:8000/createSession',{
+            let response = await (await fetch('/createSession',{
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -121,7 +121,7 @@ export default {
 
     async getSession(){
         try{
-            let response = await (await fetch('http://127.0.0.1:8000/getSession',{
+            let response = await (await fetch('/getSession',{
                 credentials: 'include'
             })).json();
             this.session = response.data;
@@ -135,7 +135,7 @@ export default {
 
     async getInfoSession(){
         try{
-            let response = await (await fetch('http://127.0.0.1:8000/getSessionInfo',{
+            let response = await (await fetch('/getSessionInfo',{
                 credentials: 'include'
             })).json();
             console.log('Info Sessione:', response);

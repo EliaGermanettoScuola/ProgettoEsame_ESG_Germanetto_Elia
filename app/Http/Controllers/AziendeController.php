@@ -42,7 +42,6 @@ class AziendeController extends Controller
     }
 
     function login(Request $request){
-
         $utente = DB::table('utenti')->where('email', $request->email)->first();
         
         if ($utente && password_verify($request->password, $utente->password)) {

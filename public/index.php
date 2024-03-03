@@ -5,9 +5,11 @@ use Illuminate\Http\Request;
 
 define('LARAVEL_START', microtime(true));
 
+
+
 /*
 |--------------------------------------------------------------------------
-| Check If The Application Is Under Maintenance
+| Check If The Application Is Under Maintenance wwwwwww
 |--------------------------------------------------------------------------
 |
 | If the application is in maintenance / demo mode via the "down" command

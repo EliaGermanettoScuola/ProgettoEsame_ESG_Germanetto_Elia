@@ -3,7 +3,11 @@ import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue';
 
 export default defineConfig({
-    base: 'https://www.esgcheckup.it/',
+    server: { 
+        hmr: {
+            host: 'esgcheckup.it',
+        },
+    },
     plugins: [
         laravel({
             input: ['resources/css/app.css', 'resources/js/app.js'],
@@ -11,4 +15,6 @@ export default defineConfig({
         }),
         vue(),
     ],
+  
+
 });

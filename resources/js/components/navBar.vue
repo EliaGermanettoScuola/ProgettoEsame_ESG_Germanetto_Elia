@@ -51,7 +51,7 @@ export default {
     methods: {
       async getSession(){
         try{
-            let response = await (await fetch('http://127.0.0.1:8000/getSession',{
+            let response = await (await fetch('/getSession',{
                 credentials: 'include'
             })).json();
             this.session = response.data;
@@ -65,7 +65,7 @@ export default {
 
       async logout(){
         try{
-            let response = await (await fetch('http://127.0.0.1:8000/destroySession',{
+            let response = await (await fetch('/destroySession',{
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
